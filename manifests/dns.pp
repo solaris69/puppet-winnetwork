@@ -31,7 +31,7 @@ class winnetwork::dns (
         path     => $::path,
         command  => "netsh interface ip set dns name=\"${firstipint}\" source=static address=${dns_primary} register=none",
         unless   => template('winnetwork/check_primary_dns.ps1.erb'),
-        provider => powershell,
+#        provider => powershell,
         notify   => Exec['stop network post-proxyconfig'],
       }
       # Set dns secondary server on first ip interface (default)
@@ -39,7 +39,7 @@ class winnetwork::dns (
         path     => $::path,
         command  => "netsh interface ip add dns name=\"${firstipint}\" address=${dns_secondary} index=2",
         unless   => template('winnetwork/check_secondary_dns.ps1.erb'),
-        provider => powershell,
+#        provider => powershell,
         require  => Exec['set dns primary'],
         notify   => Exec['stop network post-proxyconfig'],
       }
