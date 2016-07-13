@@ -25,10 +25,11 @@ class winnetwork::proxy_winhttp (
 ) {
   case $::osfamily {
     'windows': {
+      file{ 'c:/vc/check_winhttp_proxy.ps1': ensure => file, content => template('winnetwork/check_winhttp_proxy.ps1.erb'), require => File['c:/vc']} ->
       exec { 'WINHTTP proxy server':
         path     => $::path,
         command  => "& netsh winhttp set proxy \"${proxy_host}:${proxy_port}\" \"${proxy_bypass}\"",
-        unless   => template('winnetwork/check_winhttp_proxy.ps1.erb'),
+        unless   => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/winnetwork/check_winhttp_proxy.ps1',
 #        provider => powershell,
       }
     }
