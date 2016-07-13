@@ -31,7 +31,7 @@ class winnetwork::dns (
       exec { 'set dns primary':
         path     => $::path,
         command  => "netsh interface ip set dns name=\"${firstipint}\" source=static address=${dns_primary} register=none",
-        unless   => template('winnetwork/check_primary_dns.ps1.erb'),
+        unless   => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_primary_dns.ps1',
 #        provider => powershell,
         notify   => Exec['stop network post-proxyconfig'],
       }
@@ -40,7 +40,7 @@ class winnetwork::dns (
       exec { 'set dns secondary':
         path     => $::path,
         command  => "netsh interface ip add dns name=\"${firstipint}\" address=${dns_secondary} index=2",
-        unless   => template('winnetwork/check_secondary_dns.ps1.erb'),
+        unless   => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_secondary_dns.ps1',
 #        provider => powershell,
         require  => Exec['set dns primary'],
         notify   => Exec['stop network post-proxyconfig'],
