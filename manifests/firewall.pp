@@ -29,10 +29,11 @@ class winnetwork::firewall (
         false   => 'ON',
         default => 'ON',
       }
+      file{ 'c:/vc/check_private_firewall_state.ps1': ensure => file, content => template('winnetwork/check_private_firewall_state.ps1.erb'), require => File['c:/vc']} ->
       exec { 'private profile firewall':
         path     => $::path,
         command  => "& netsh advfirewall set private state ${private_state}",
-        unless   => template('winnetwork/check_private_firewall_state.ps1.erb'),
+        unless   => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_private_firewall_state.ps1',
 #        provider => powershell,
       }
 
@@ -41,10 +42,11 @@ class winnetwork::firewall (
         false   => 'ON',
         default => 'ON',
       }
+      file{ 'c:/vc/check_public_firewall_state.ps1': ensure => file, content => template('winnetwork/check_public_firewall_state.ps1.erb'), require => File['c:/vc']} ->
       exec { 'public profile firewall':
         path     => $::path,
         command  => "& netsh advfirewall set public state ${public_state}",
-        unless   => template('winnetwork/check_public_firewall_state.ps1.erb'),
+        unless   => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_public_firewall_state.ps1',
 #        provider => powershell,
       }
     }

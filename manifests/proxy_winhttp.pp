@@ -29,7 +29,7 @@ class winnetwork::proxy_winhttp (
       exec { 'WINHTTP proxy server':
         path     => $::path,
         command  => "& netsh winhttp set proxy \"${proxy_host}:${proxy_port}\" \"${proxy_bypass}\"",
-        unless   => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/winnetwork/check_winhttp_proxy.ps1',
+        unless   => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_winhttp_proxy.ps1',
 #        provider => powershell,
       }
     }
