@@ -29,7 +29,7 @@ class winnetwork::proxy_winhttp (
         path     => $::path,
         command  => "& netsh winhttp set proxy \"${proxy_host}:${proxy_port}\" \"${proxy_bypass}\"",
         unless   => template('winnetwork/check_winhttp_proxy.ps1.erb'),
-        provider => powershell,
+#        provider => powershell,
       }
     }
     default: { fail("${::osfamily} is not a supported platform.") }
