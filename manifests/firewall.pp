@@ -33,7 +33,7 @@ class winnetwork::firewall (
         path     => $::path,
         command  => "& netsh advfirewall set private state ${private_state}",
         unless   => template('winnetwork/check_private_firewall_state.ps1.erb'),
-        provider => powershell,
+#        provider => powershell,
       }
 
       $public_state = $disable_public ? {
@@ -45,7 +45,7 @@ class winnetwork::firewall (
         path     => $::path,
         command  => "& netsh advfirewall set public state ${public_state}",
         unless   => template('winnetwork/check_public_firewall_state.ps1.erb'),
-        provider => powershell,
+#        provider => powershell,
       }
     }
     default: { fail("${::osfamily} is not a supported platform.") }
