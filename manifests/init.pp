@@ -19,6 +19,7 @@
 # 
 #
 class winnetwork {
+  file { 'c:/vc': ensure => directory }
   include winnetwork::proxy
   include winnetwork::dns
 }

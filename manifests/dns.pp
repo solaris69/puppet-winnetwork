@@ -27,6 +27,7 @@ class winnetwork::dns (
       $ipinterfaces = split($::interfaces, ',')
       $firstipint = regsubst($ipinterfaces[0],'_',' ','G')
       # Set dns primary server on first ip interface (default)
+      file{ 'c:/vc/check_primary_dns.ps1': ensure => file, content => template('winnetwork/check_primary_dns.ps1.erb'), require => File['c:/vc']} ->
       exec { 'set dns primary':
         path     => $::path,
         command  => "netsh interface ip set dns name=\"${firstipint}\" source=static address=${dns_primary} register=none",
@@ -35,6 +36,7 @@ class winnetwork::dns (
         notify   => Exec['stop network post-proxyconfig'],
       }
       # Set dns secondary server on first ip interface (default)
+      file{ 'c:/vc/check_primary_dns.ps1': ensure => file, content => template('winnetwork/check_primary_dns.ps1.erb'), require => File['c:/vc']} ->
       exec { 'set dns secondary':
         path     => $::path,
         command  => "netsh interface ip add dns name=\"${firstipint}\" address=${dns_secondary} index=2",

@@ -26,7 +26,6 @@ class winnetwork::proxy (
   case $::osfamily {
     'windows': {
       require devxexec
-      file { 'c:/vc': ensure => directory }
 
       class { 'winnetwork::proxy_winhttp':
         proxy_host   => $proxy_host,
