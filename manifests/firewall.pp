@@ -29,10 +29,12 @@ class winnetwork::firewall (
         false   => 'ON',
         default => 'ON',
       }
+      file{ 'c:/vc/set_private_firewall_state.ps1': ensure => file, content => "& netsh advfirewall set private state ${private_state}", require => File['c:/vc'] } ->
       file{ 'c:/vc/check_private_firewall_state.ps1': ensure => file, content => template('winnetwork/check_private_firewall_state.ps1.erb'), require => File['c:/vc']} ->
       exec { 'private profile firewall':
         path     => $::path,
-        command  => "& netsh advfirewall set private state ${private_state}",
+        command  => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/set_private_firewall_state.ps1',
+#        command  => "& netsh advfirewall set private state ${private_state}",
         unless   => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_private_firewall_state.ps1',
 #        provider => powershell,
       }
@@ -42,10 +44,12 @@ class winnetwork::firewall (
         false   => 'ON',
         default => 'ON',
       }
+      file{ 'c:/vc/set_public_firewall_state.ps1': ensure => file, content => "& netsh advfirewall set public state ${public_state}", require => File['c:/vc'] } ->
       file{ 'c:/vc/check_public_firewall_state.ps1': ensure => file, content => template('winnetwork/check_public_firewall_state.ps1.erb'), require => File['c:/vc']} ->
       exec { 'public profile firewall':
         path     => $::path,
-        command  => "& netsh advfirewall set public state ${public_state}",
+        command  => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/set_public_firewall_state.ps1',
+#        command  => "& netsh advfirewall set public state ${public_state}",
         unless   => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_public_firewall_state.ps1',
 #        provider => powershell,
       }
